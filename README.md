@@ -67,7 +67,7 @@ python -m venv venv
 
 4️⃣ Instale as dependências:
 ```powershell
-pip install -r requirements.txt
+pip install -r requisitos.txt
 ```
 
 ---
