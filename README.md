@@ -51,7 +51,7 @@ api-testes-desempenho/
 
 1️⃣ Clone ou baixe o projeto:
 ```powershell
-git clone https://github.com/<seu-usuario>/api-testes-desempenho.git
+git clone https://github.com/agathafr/api-testes-desempenho.git
 cd api-testes-desempenho
 ```
 
