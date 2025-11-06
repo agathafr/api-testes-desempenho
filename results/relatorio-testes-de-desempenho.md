@@ -11,7 +11,7 @@ O objetivo foi avaliar o comportamento da API sob diferentes condições de carg
 Avaliar o comportamento da API durante o aumento gradual de usuários simultâneos, verificando o tempo de resposta, taxa de erros e possíveis gargalos de desempenho.
 
 ### Configurações do teste
-- **Script executado:** `teste-carga.js`
+- **Script executado:** [teste-carga.json](../tests/teste-carga.js)
 - **Ferramenta:** [k6](https://k6.io)
 - **Ambiente:** Local (`http://localhost:8000`)
 - **Duração total:** ~3 minutos
@@ -42,10 +42,10 @@ Avaliar o comportamento da API durante o aumento gradual de usuários simultâne
 
 ### Evidências
 1. **Print do terminal do k6** mostrando o resumo final da execução (p95, p99, erros e checks).  
-![alt text](terminal-sumario.png)
-2. **Arquivo JSON exportado:** `perf/sumario.json` (contém as métricas completas).  
+![Resumo do terminal do k6](evidencias/terminal-sumario.png)
+2. **Arquivo JSON exportado:** [results/perf/sumario.json](perf/sumario.json) (contém as métricas completas).  
 3. **Print do endpoint `/status`** após o teste, confirmando estado limpo (sem vazamento, CPU = 0%).  
-![alt text](endpoint-status.png)
+![Print do endpoint /status](evidencias/endpoint-status.png)
 ---
 
 ## 📋 Conclusão Parcial
@@ -60,7 +60,7 @@ As próximas etapas (cenários **Spike** e **Endurance**) serão executadas para
 Avaliar a capacidade da API de responder a um aumento **repentino e extremo de usuários simultâneos** (pico de 200 VUs em poucos segundos) e verificar sua estabilidade durante e após o pico.
 
 ### Configurações do teste
-- **Script executado:** `teste-spike.js`
+- **Script executado:** [teste-spike.json](../tests/teste-spike.js)
 - **Duração total:** ~45 segundos
 - **Pico máximo:** 200 usuários virtuais (VUs)
 - **Export de métricas:** `perf/spike.json`
@@ -89,9 +89,9 @@ Avaliar a capacidade da API de responder a um aumento **repentino e extremo de u
 - **Throughput × Recursos:** a queda de throughput para ~4 req/s mostra que a fila interna de requisições ficou congestionada.
 
 ### Evidências
-1. **Arquivo JSON:** `perf/spike.json` com todas as métricas do teste.  
+1. **Arquivo JSON:** [results/perf/spike.json](perf/spike.json) com todas as métricas do teste.  
 2. **Print do terminal do k6** mostrando os resultados (p95, erros e checks).  
-![alt text](terminal-spike.png)
+![Resumo do terminal do k6 – Spike](evidencias/terminal-spike.png)
 3. **Print do endpoint `/status`** (antes ou depois do teste) demonstrando o estado das simulações (todas off).
 
 ---
@@ -112,10 +112,10 @@ Ambos confirmam gargalos de processamento e ausência de escalabilidade.
 Avaliar a **estabilidade e resistência** da API sob carga constante durante 30 minutos, observando latência, erros e consumo de recursos (CPU/memória).
 
 ### Configurações
-- **Script:** `teste-endurance.js`
+- **Script:** [teste-endurance.json](../tests/teste-endurance.js)
 - **Duração:** 30 minutos
 - **VUs Estáveis:** 50
-- **Export:** `perf/endurance.json`
+- **Export:** [results/perf/endurance.json](perf/endurance.json)
 - **Monitoramento:** endpoint `/status` (início e fim)
 - **Simulações:** desativadas
 
@@ -139,11 +139,11 @@ Avaliar a **estabilidade e resistência** da API sob carga constante durante 30 
 ### Evidências
 - `perf/endurance.json`
 - Prints do terminal e do `/status` (início e fim do teste)
-![alt text](status-endurance-inicial.png)
-![alt text](status-endurance-final.png)
+![Status inicial – Endurance](evidencias/status-endurance-inicial.png)
+![Status final – Endurance](evidencias/status-endurance-final.png)
 
 - Print do terminal K6
-![alt text](terminal-endurance.png)
+![Resumo do terminal do k6 – Endurance](evidencias/terminal-endurance.png)
 ---
 
 ## 📈 Comparativo Geral dos Cenários
@@ -175,22 +175,29 @@ Os resultados demonstram que:
 
 ## 📦 Estrutura Final de Entrega
 ```
-/
 api-testes-desempenho/
-├─ main.py
-├─ teste-carga.js
-├─ teste-spike.js
-├─ teste-endurance.js
-├─ perf/
-│ ├─ sumario.json
-│ ├─ spike.json
-│ └─ endurance.json
-├─ analise.md
-├─ print_terminal_rampup.png
-├─ print_terminal_spike.png
-├─ print_terminal_endurance.png
-├─ status_endurance_inicial.png
-└─ status_endurance_final.png
+├─ src/
+│  └─ main.py
+├─ tests/
+│  ├─ teste-carga.js
+│  ├─ teste-spike.js
+│  └─ teste-endurance.js
+├─ results/
+│  ├─ perf/
+│  │  ├─ sumario.json
+│  │  ├─ spike.json
+│  │  └─ endurance.json
+│  ├─ evidencias/
+│  │  ├─ endpoint-status.png
+│  │  ├─ status-endurance-inicial.png
+│  │  ├─ status-endurance-final.png
+│  │  ├─ terminal-sumario.png
+│  │  ├─ terminal-spike.png
+│  │  └─ terminal-endurance.png
+│  └─ relatorio-testes-de-desempenho.md
+├─ README.md
+├─ requirements.txt
+└─ .gitignore
 ```
 ---
 

@@ -11,23 +11,28 @@ Foram aplicados três cenários clássicos:
 
 ```
 api-testes-desempenho/
- ├─ main.py                     # API FastAPI
- ├─ teste-carga.js              # Cenário 1 – Ramp-Up
- ├─ teste-spike.js              # Cenário 2 – Spike
- ├─ teste-endurance.js          # Cenário 3 – Endurance
- ├─ perf/                       # Resultados exportados do k6
- │   ├─ sumario.json
- │   ├─ spike.json
- │   └─ endurance.json
- ├─ analise.md                  # Relatório consolidado de análise
- ├─ requirements.txt            # Dependências Python
- ├─ .gitignore                  # Arquivos ignorados pelo Git
- ├─ README.md                   # Este arquivo :)
- ├─ status-endurance-inicial.png
- ├─ status-endurance-final.png
- ├─ print_terminal_rampup.png
- ├─ print_terminal_spike.png
- └─ print_terminal_endurance.png
+├─ src/
+│  └─ main.py
+├─ tests/
+│  ├─ teste-carga.js
+│  ├─ teste-spike.js
+│  └─ teste-endurance.js
+├─ results/
+│  ├─ perf/
+│  │  ├─ sumario.json
+│  │  ├─ spike.json
+│  │  └─ endurance.json
+│  ├─ evidencias/
+│  │  ├─ endpoint-status.png
+│  │  ├─ status-endurance-inicial.png
+│  │  ├─ status-endurance-final.png
+│  │  ├─ terminal-sumario.png
+│  │  ├─ terminal-spike.png
+│  │  └─ terminal-endurance.png
+│  └─ relatorio-testes-de-desempenho.md
+├─ README.md
+├─ requirements.txt
+└─ .gitignore
 ```
 
 ---
@@ -57,7 +62,7 @@ python -m venv venv
 
 3️⃣ Ative o ambiente virtual:
 ```powershell
-.env\Scripts\Activate.ps1
+.\venv\Scripts\Activate.ps1
 ```
 
 4️⃣ Instale as dependências:
@@ -71,7 +76,7 @@ pip install -r requirements.txt
 
 Inicie a aplicação:
 ```powershell
-uvicorn main:app --reload --port 8000
+uvicorn src.main:app --reload --port 8000
 ```
 
 Acesse no navegador:
@@ -87,16 +92,16 @@ Em outro terminal (com o k6 instalado):
 
 ```powershell
 # Cenário 1 – Carga Progressiva
-k6 run --summary-export=perf\sumario.json teste-carga.js
+k6 run --summary-export=results\perf\sumario.json tests\teste-carga.js
 
 # Cenário 2 – Pico Súbito
-k6 run --summary-export=perf\spike.json teste-spike.js
+k6 run --summary-export=results\perf\spike.json tests\teste-spike.js
 
 # Cenário 3 – Resistência (30 minutos)
-k6 run --summary-export=perf\endurance.json teste-endurance.js
+k6 run --summary-export=results\perf\endurance.json tests\teste-endurance.js
 ```
 
-Os resultados serão salvos na pasta `perf/` e exibidos no terminal.
+Os resultados serão salvos na pasta `results/perf/` e exibidos no terminal.
 
 ---
 
@@ -113,7 +118,7 @@ Os testes medem e correlacionam:
 
 ## 📋 Relatório de Resultados
 
-O arquivo [`analise.md`](analise.md) contém:
+O arquivo [`results/relatorio-testes-de-desempenho.md`](results/relatorio-testes-de-desempenho.md) contém:
 - A metodologia dos três cenários testados;
 - Comparação das métricas observadas;
 - Interpretação dos resultados;
